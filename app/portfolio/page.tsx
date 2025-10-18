@@ -154,10 +154,12 @@ export default function PortfolioPage() {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <Wallet className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold">WalletHub</span>
+              <img 
+                src="/verifil.svg" 
+                alt="Verifil Logo" 
+                className="w-10 h-10"
+              />
+              <span className="text-xl font-bold">VeriFil</span>
             </motion.div>
             <button
               className="lg:hidden p-2 hover:bg-secondary rounded-lg transition-colors"

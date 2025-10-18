@@ -1,13 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ArrowRight, Shield, Eye, TrendingUp, Wallet } from 'lucide-react'
-import Link from 'next/link'
-import Logo from '@/components/Logo'
-import { motion, Variants } from 'framer-motion'
-
-// ✅ wrap Next.js Link so Framer Motion can animate it
-const MotionLink = motion(Link)
+import { ArrowRight, Shield, Eye, TrendingUp, Wallet, Check, Zap, Lock } from 'lucide-react'
 
 // Constants for statistics
 const STATS = {
@@ -23,22 +17,44 @@ export default function LandingPage() {
     walletsScanned: 0,
   })
 
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  // Handle scroll for navbar animation with smooth transition
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   const features = [
     {
       icon: Shield,
       title: 'Risk Analysis',
-      description: 'Detect honeypots, rug pulls, and risky tokens automatically',
+      description: 'Detect honeypots, rug pulls, and risky tokens automatically with advanced AI-powered detection',
     },
     {
       icon: Eye,
       title: 'Real-time Monitoring',
-      description: 'Track wallet balances and transactions with live blockchain data',
+      description: 'Track wallet balances and transactions with live blockchain data across multiple chains',
     },
     {
       icon: TrendingUp,
       title: 'Portfolio Insights',
-      description: 'Get comprehensive analytics on your crypto holdings',
+      description: 'Get comprehensive analytics on your crypto holdings with detailed performance metrics',
     },
+  ]
+
+  const benefits = [
+    'Advanced scam detection algorithms',
+    'Real-time blockchain monitoring',
+    'Multi-wallet support',
+    'Comprehensive risk reports',
+    'Transaction history analysis',
+    'Portfolio performance tracking',
   ]
 
   // Animate stats count-up
@@ -60,223 +76,461 @@ export default function LandingPage() {
     }, 20)
   }, [])
 
-  // Framer Motion Variants
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  }
-  const cardPopup: Variants = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: 'spring', stiffness: 120, damping: 12 },
-    },
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900/40 via-30% to-black text-foreground relative overflow-hidden">
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-600/10 rounded-full blur-2xl"></div>
-      </div>
-      {/* Content wrapper with relative positioning */}
-      <div className="relative z-10">
-        <nav className="border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <Logo size="md" />
-              <Link href="/portfolio">
-                <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: '0 8px 20px rgba(0,0,0,0.15)' }}
-                  className="px-6 py-2 bg-primary text-primary-foreground font-medium rounded-lg transition"
-                >
+    <div className="min-h-screen bg-gradient-to-br from-black via-violet-950 to-black text-white">
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+      {/* Navigation */}
+      <nav className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className={`transition-all duration-75 ease-out ${!isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            {/* Split navbar - two separate sections WITHOUT containers */}
+            <div className="flex justify-between items-center gap-4">
+              {/* Left section - Logo */}
+              <div className="px-2 py-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-violet-500 to-purple-600 bg-clip-text text-transparent">
+                    VeriFil
+                  </span>
+                </div>
+              </div>
+
+              {/* Right section - Menu and Button */}
+              <div className="px-2 py-3">
+                <div className="flex items-center gap-8">
+                  <div className="hidden md:flex items-center gap-8">
+                    <a href="#features" className="text-gray-300 hover:text-white transition-colors duration-150">Features</a>
+                    <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors duration-150">How It Works</a>
+                    <a href="#pricing" className="text-gray-300 hover:text-white transition-colors duration-150">Pricing</a>
+                  </div>
+                  <button className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white font-medium rounded-full hover:shadow-lg hover:shadow-violet-500/50 hover:scale-105 transition-all duration-150">
+                    Get Started
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`absolute top-0 left-0 right-0 transition-all duration-75 ease-out ${isScrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+            {/* Merged navbar - single section WITH container */}
+            <div className="mx-auto max-w-5xl bg-black/80 backdrop-blur-md rounded-full border border-purple-500/30 shadow-lg shadow-purple-500/20">
+              <div className="flex justify-between items-center h-16 px-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-violet-500 to-purple-600 bg-clip-text text-transparent">
+                    VeriFil
+                  </span>
+                </div>
+                <div className="hidden md:flex items-center gap-8">
+                  <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
+                  <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How It Works</a>
+                  <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
+                </div>
+                <button className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white font-medium rounded-full hover:shadow-lg hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300">
                   Get Started
-                </motion.button>
-              </Link>
+                </button>
+              </div>
             </div>
           </div>
-        </nav>
+        </div>
+      </nav>
 
-        {/* Hero Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto text-center">
-            {/* Headline */}
-            <motion.h1
-              className="text-4xl md:text-6xl font-bold mb-2"
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 100, damping: 10, delay: 0.1 }}
-            >
-              Secure Your Crypto
-            </motion.h1>
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 via-transparent to-violet-500/10 -z-10"></div>
+        <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-violet-600 rounded-full blur-3xl opacity-20 -z-10"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-violet-500 rounded-full blur-3xl opacity-15 -z-10"></div>
 
-            <motion.span
-              className="text-primary block text-4xl md:text-6xl font-bold mb-6"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 120, damping: 12, delay: 0.3 }}
-            >
-              Portfolio
-            </motion.span>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left column - Text content */}
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-gray-300 text-sm font-medium">
+                <Zap className="w-4 h-4" />
+                Trusted by 1,000+ Users
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                Secure Your
+                <span className="block bg-gradient-to-r from-purple-500 via-violet-600 to-purple-700 bg-clip-text text-transparent">
+                  Crypto Portfolio
+                </span>
+              </h1>
 
-            {/* Paragraph */}
-            <motion.p
-              className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 100, damping: 10, delay: 0.5 }}
-            >
-              VeriFil analyzes your Ethereum wallets to detect scams, honeypots, and risky tokens.
-              Protect your investments with real-time risk assessment.
-            </motion.p>
+              <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
+                VeriFil analyzes your Ethereum wallets to detect scams, honeypots, and risky tokens. 
+                Protect your investments with real-time risk assessment powered by advanced blockchain analytics.
+              </p>
 
-            {/* Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 100, damping: 10, delay: 0.7 }}
-            >
-              <MotionLink
-                href="/wallets"
-                whileHover={{ scale: 1.05, boxShadow: '0 8px 20px rgba(0,0,0,0.15)' }}
-                className="bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-semibold transition flex items-center justify-center gap-2"
-              >
-                Start Analyzing
-                <ArrowRight className="w-5 h-5" />
-              </MotionLink>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="px-8 py-4 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+                  Start Analyzing
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+                <button className="px-8 py-4 bg-black/50 border-2 border-purple-500/30 text-white rounded-full font-semibold hover:border-purple-500/50 hover:shadow-md hover:shadow-purple-500/30 transition-all duration-300">
+                  Watch Demo
+                </button>
+              </div>
 
-              <motion.button
-                whileHover={{ scale: 1.03, boxShadow: '0 6px 15px rgba(0,0,0,0.1)' }}
-                className="px-6 py-4 border border-primary text-primary rounded-lg hover:bg-primary/10 transition font-medium ml-4"
-              >
-                Watch Demo
-              </motion.button>
-            </motion.div>
-          </div>
-        </section>
+              {/* Stats - Vertical with popup animations */}
+              <div className="flex flex-col gap-6 pt-8">
+                <div className="opacity-0 translate-y-8 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
+                  <div className="text-4xl font-bold text-white">{counts.walletsScanned.toLocaleString()}+</div>
+                  <div className="text-sm text-gray-400 mt-1">Wallets Scanned</div>
+                </div>
+                <div className="opacity-0 translate-y-8 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards]">
+                  <div className="text-4xl font-bold text-white">{counts.scamsDetected.toLocaleString()}+</div>
+                  <div className="text-sm text-gray-400 mt-1">Scams Detected</div>
+                </div>
+                <div className="opacity-0 translate-y-8 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards]">
+                  <div className="text-4xl font-bold text-white">{counts.users.toLocaleString()}+</div>
+                  <div className="text-sm text-gray-400 mt-1">Active Users</div>
+                </div>
+              </div>
+            </div>
 
-        {/* Stats Section */}
-        <section className="py-16 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              {Object.entries(counts).map(([key, value], idx) => (
-                <motion.div
-                  key={key}
-                  className="transition-transform hover:scale-105"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.5 }}
-                  variants={fadeUp}
-                  transition={{ delay: idx * 0.2 }}
-                >
-                  <div className="text-3xl font-bold text-primary mb-2">
-                    {value.toLocaleString()}
+            {/* Right column - Visual element */}
+            <div className="relative">
+              <div className="relative bg-gradient-to-br from-purple-900/50 to-purple-950/50 border border-purple-500/30 rounded-3xl p-8 shadow-2xl shadow-purple-500/20">
+                <div className="bg-black/30 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300 text-sm">Wallet Security Score</span>
+                    <span className="text-white font-bold text-2xl">98%</span>
                   </div>
-                  <div className="text-muted-foreground">
-                    {key === 'walletsScanned'
-                      ? 'Wallets Scanned'
-                      : key === 'scamsDetected'
-                        ? 'Scams Detected'
-                        : 'Users'}
+                  <div className="h-3 bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-purple-600 via-violet-500 to-purple-500 rounded-full w-[98%]"></div>
                   </div>
-                </motion.div>
-              ))}
+                  <div className="grid grid-cols-2 gap-4 pt-4">
+                    <div className="bg-black/50 border border-white/5 rounded-xl p-4">
+                      <div className="text-gray-400 text-xs mb-1">Risk Level</div>
+                      <div className="text-white font-bold">Low</div>
+                    </div>
+                    <div className="bg-black/50 border border-white/5 rounded-xl p-4">
+                      <div className="text-gray-400 text-xs mb-1">Scans Run</div>
+                      <div className="text-white font-bold">247</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-violet-600 rounded-full blur-2xl opacity-20"></div>
+                <div className="absolute -top-4 -left-4 w-32 h-32 bg-purple-500 rounded-full blur-2xl opacity-20"></div>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Features Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <motion.h2
-                className="text-3xl md:text-4xl font-bold mb-4"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
+      {/* Features Section */}
+      <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-violet-950/30 via-black to-violet-950/30 -z-10"></div>
+        <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-violet-600 rounded-full blur-3xl opacity-15 -z-10"></div>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-gray-300 text-sm font-medium mb-4">
+              Features
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Everything You Need to
+              <span className="block bg-gradient-to-r from-purple-500 via-violet-600 to-purple-700 bg-clip-text text-transparent">
+                Stay Protected
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Advanced blockchain analysis tools powered by cutting-edge technology
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-violet-500/50 hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300 hover:-translate-y-2 group"
               >
-                Why Choose VeriFil?
-              </motion.h2>
-              <motion.p
-                className="text-xl text-muted-foreground max-w-2xl mx-auto"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                transition={{ delay: 0.2 }}
-              >
-                Advanced blockchain analysis tools to keep your crypto investments safe
-              </motion.p>
+                <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-7 h-7 text-violet-500" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
+                <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Security Threats Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-violet-950/10 to-black -z-10"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-violet-600 rounded-full blur-3xl opacity-10 -z-10"></div>
+        
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-full text-red-400 text-sm font-medium mb-4">
+              Security Threats
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Common Blockchain
+              <span className="block bg-gradient-to-r from-red-500 via-orange-500 to-red-600 bg-clip-text text-transparent">
+                Scams We Detect
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Stay protected from the most dangerous threats in the crypto space
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Honeypot Scam */}
+            <div className="group relative overflow-hidden rounded-3xl border border-red-500/20 bg-gradient-to-br from-red-950/30 to-black hover:border-red-500/50 transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Lock className="w-8 h-8 text-red-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Honeypot Tokens</h3>
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  Tokens that allow buying but prevent selling. Scammers trap your funds by making it impossible to sell the token after purchase.
+                </p>
+                <div className="flex items-center gap-2 text-red-400 text-sm font-semibold">
+                  <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  High Risk
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center p-6 rounded-lg border border-border hover:bg-secondary/50 transition-colors hover:shadow-lg hover:-translate-y-1 cursor-pointer"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={cardPopup}
-                  transition={{ delay: index * 0.2 }}
-                >
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </motion.div>
-              ))}
+            {/* Rug Pull */}
+            <div className="group relative overflow-hidden rounded-3xl border border-orange-500/20 bg-gradient-to-br from-orange-950/30 to-black hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-orange-500/10 border border-orange-500/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <TrendingUp className="w-8 h-8 text-orange-500 rotate-180" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Rug Pulls</h3>
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  Developers suddenly withdraw all liquidity from a project, leaving investors with worthless tokens and no way to sell.
+                </p>
+                <div className="flex items-center gap-2 text-orange-400 text-sm font-semibold">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                  Critical Risk
+                </div>
+              </div>
+            </div>
+
+            {/* Phishing Attacks */}
+            <div className="group relative overflow-hidden rounded-3xl border border-yellow-500/20 bg-gradient-to-br from-yellow-950/30 to-black hover:border-yellow-500/50 transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-yellow-500/10 border border-yellow-500/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Eye className="w-8 h-8 text-yellow-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Phishing Attacks</h3>
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  Fake websites and malicious smart contracts designed to steal your private keys and drain your wallet.
+                </p>
+                <div className="flex items-center gap-2 text-yellow-400 text-sm font-semibold">
+                  <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                  High Risk
+                </div>
+              </div>
+            </div>
+
+            {/* Pump and Dump */}
+            <div className="group relative overflow-hidden rounded-3xl border border-pink-500/20 bg-gradient-to-br from-pink-950/30 to-black hover:border-pink-500/50 transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <ArrowRight className="w-8 h-8 text-pink-500 rotate-90" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Pump & Dump</h3>
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  Coordinated schemes to artificially inflate token prices before selling off, leaving late investors with losses.
+                </p>
+                <div className="flex items-center gap-2 text-pink-400 text-sm font-semibold">
+                  <span className="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></span>
+                  Medium Risk
+                </div>
+              </div>
+            </div>
+
+            {/* Fake Token Airdrops */}
+            <div className="group relative overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-br from-purple-950/30 to-black hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-purple-500/10 border border-purple-500/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Wallet className="w-8 h-8 text-purple-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Fake Airdrops</h3>
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  Malicious tokens sent to your wallet that require dangerous contract approvals, granting scammers access to your funds.
+                </p>
+                <div className="flex items-center gap-2 text-purple-400 text-sm font-semibold">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+                  High Risk
+                </div>
+              </div>
+            </div>
+
+            {/* Smart Contract Exploits */}
+            <div className="group relative overflow-hidden rounded-3xl border border-red-500/20 bg-gradient-to-br from-red-950/30 to-black hover:border-red-500/50 transition-all duration-300 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Shield className="w-8 h-8 text-red-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Contract Exploits</h3>
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  Vulnerabilities in smart contract code that allow hackers to drain funds or manipulate token economics.
+                </p>
+                <div className="flex items-center gap-2 text-red-400 text-sm font-semibold">
+                  <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  Critical Risk
+                </div>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tr from-violet-950/20 via-transparent to-violet-900/20 -z-10"></div>
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-violet-600 rounded-full blur-3xl opacity-15 -z-10"></div>
+        <div className="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-violet-500 rounded-full blur-3xl opacity-10 -z-10"></div>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left - Steps */}
+            <div>
+              <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-gray-300 text-sm font-medium mb-4">
+                How It Works
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Get Protected in
+                <span className="block bg-gradient-to-r from-purple-500 via-violet-600 to-purple-700 bg-clip-text text-transparent">
+                  Three Simple Steps
+                </span>
+              </h2>
+              <p className="text-xl text-gray-300 mb-12">
+                Start securing your crypto portfolio in minutes with our intuitive platform
+              </p>
+
+              <div className="space-y-8">
+                {[
+                  { step: '01', title: 'Connect Your Wallet', desc: 'Simply enter your Ethereum wallet address' },
+                  { step: '02', title: 'Analyze & Scan', desc: 'Our AI scans your portfolio for risks and threats' },
+                  { step: '03', title: 'Get Protected', desc: 'Receive detailed reports and protection recommendations' },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 group">
+                    <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-2xl flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-violet-500/30">
+                      {item.step}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold mb-2 text-white">{item.title}</h3>
+                      <p className="text-gray-300">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right - Benefits list */}
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-12">
+              <h3 className="text-2xl font-bold mb-8 text-white">Why Choose VeriFil?</h3>
+              <div className="space-y-4">
+                {benefits.map((benefit, i) => (
+                  <div key={i} className="flex items-center gap-4 bg-black/50 border border-white/5 rounded-xl p-4 hover:border-violet-500/30 hover:shadow-md hover:shadow-violet-500/10 transition-all duration-300">
+                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
+                      <Check className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-gray-200 font-medium">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black -z-10"></div>
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-violet-600 rounded-full blur-3xl opacity-25"></div>
+        <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-violet-500 rounded-full blur-3xl opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-950/30 to-transparent"></div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <Lock className="w-16 h-16 text-violet-500 mx-auto mb-6" />
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Secure Your Portfolio?
-          </motion.h2>
-          <motion.p
-            className="text-xl text-muted-foreground mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            transition={{ delay: 0.2 }}
-          >
-            Join thousands of users who trust VeriFil to protect their crypto investments
-          </motion.p>
-          <MotionLink
-            href="/wallets"
-            whileHover={{ scale: 1.05 }}
-            className="bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-semibold inline-flex items-center gap-2"
-          >
-            <Wallet className="w-5 h-5" />
+          </h2>
+          <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+            Join thousands of users who trust VeriFil to protect their crypto investments with advanced security analysis
+          </p>
+          <button className="px-10 py-5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white rounded-full text-lg font-bold hover:shadow-2xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+            <Wallet className="w-6 h-6" />
             Get Started Free
-          </MotionLink>
-        </section>
+            <ArrowRight className="w-5 h-5" />
+          </button>
+          <p className="text-gray-400 text-sm mt-6">No credit card required • Free forever</p>
+        </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="border-t border-border py-12 px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-          © 2025 VeriFil. All rights reserved. Built for crypto security.
-        </footer>
-      </div>
-    </div >
+      {/* Footer */}
+      <footer className="bg-black border-t border-white/10 text-gray-400 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-2xl font-bold text-white">VeriFil</span>
+              </div>
+              <p className="text-sm">Secure your crypto portfolio with advanced blockchain analysis.</p>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Security</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-violet-400 transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Careers</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Terms</a></li>
+                <li><a href="#" className="hover:text-violet-400 transition-colors">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/10 pt-8 text-center text-sm">
+            <p>© 2025 VeriFil. All rights reserved. Built for crypto security.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
