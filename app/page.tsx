@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { ArrowRight, Shield, Eye, TrendingUp, Wallet, Check, Zap, Lock } from 'lucide-react'
+import StatsSection from '@/components/States'
+import Link from 'next/link'
 
 // Constants for statistics
 const STATS = {
@@ -91,9 +93,10 @@ export default function LandingPage() {
         }
       `}</style>
       {/* Navigation */}
+      {/* Navigation */}
       <nav className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className={`transition-all duration-75 ease-out ${!isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className={`transition-all duration-500 ease-in-out ${!isScrolled ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
             {/* Split navbar - two separate sections WITHOUT containers */}
             <div className="flex justify-between items-center gap-4">
               {/* Left section - Logo */}
@@ -124,7 +127,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className={`absolute top-0 left-0 right-0 transition-all duration-75 ease-out ${isScrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+          <div className={`absolute top-0 left-0 right-0 transition-all duration-500 ease-in-out ${isScrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
             {/* Merged navbar - single section WITH container */}
             <div className="mx-auto max-w-5xl bg-black/80 backdrop-blur-md rounded-full border border-purple-500/30 shadow-lg shadow-purple-500/20">
               <div className="flex justify-between items-center h-16 px-6">
@@ -139,16 +142,17 @@ export default function LandingPage() {
                 <div className="hidden md:flex items-center gap-8">
                   <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
                   <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How It Works</a>
-                  <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
+                  <a href="#security" className="text-gray-300 hover:text-white transition-colors">Security</a>
                 </div>
-                <button className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white font-medium rounded-full hover:shadow-lg hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300">
+                <Link href="/portfolio" className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white font-medium rounded-full hover:shadow-lg hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300">
                   Get Started
-                </button>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </nav>
+
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -165,7 +169,7 @@ export default function LandingPage() {
                 <Zap className="w-4 h-4" />
                 Trusted by 1,000+ Users
               </div>
-              
+
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                 Secure Your
                 <span className="block bg-gradient-to-r from-purple-500 via-violet-600 to-purple-700 bg-clip-text text-transparent">
@@ -174,7 +178,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
-                VeriFil analyzes your Ethereum wallets to detect scams, honeypots, and risky tokens. 
+                VeriFil analyzes your Ethereum wallets to detect scams, honeypots, and risky tokens.
                 Protect your investments with real-time risk assessment powered by advanced blockchain analytics.
               </p>
 
@@ -189,22 +193,8 @@ export default function LandingPage() {
               </div>
 
               {/* Stats - Vertical with popup animations */}
-              <div className="flex flex-col gap-6 pt-8">
-                <div className="opacity-0 translate-y-8 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
-                  <div className="text-4xl font-bold text-white">{counts.walletsScanned.toLocaleString()}+</div>
-                  <div className="text-sm text-gray-400 mt-1">Wallets Scanned</div>
-                </div>
-                <div className="opacity-0 translate-y-8 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards]">
-                  <div className="text-4xl font-bold text-white">{counts.scamsDetected.toLocaleString()}+</div>
-                  <div className="text-sm text-gray-400 mt-1">Scams Detected</div>
-                </div>
-                <div className="opacity-0 translate-y-8 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards]">
-                  <div className="text-4xl font-bold text-white">{counts.users.toLocaleString()}+</div>
-                  <div className="text-sm text-gray-400 mt-1">Active Users</div>
-                </div>
-              </div>
-            </div>
 
+            </div>
             {/* Right column - Visual element */}
             <div className="relative">
               <div className="relative bg-gradient-to-br from-purple-900/50 to-purple-950/50 border border-purple-500/30 rounded-3xl p-8 shadow-2xl shadow-purple-500/20">
@@ -234,7 +224,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
+      <StatsSection />
       {/* Features Section */}
       <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-violet-950/30 via-black to-violet-950/30 -z-10"></div>
@@ -273,10 +263,10 @@ export default function LandingPage() {
       </section>
 
       {/* Security Threats Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section id="security" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-violet-950/10 to-black -z-10"></div>
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-violet-600 rounded-full blur-3xl opacity-10 -z-10"></div>
-        
+
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-full text-red-400 text-sm font-medium mb-4">
