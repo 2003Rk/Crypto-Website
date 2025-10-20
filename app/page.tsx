@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { ArrowRight, Shield, Eye, TrendingUp, Wallet, Check, Zap, Lock } from 'lucide-react'
 import StatsSection from '@/components/States'
 import Link from 'next/link'
+import Image from 'next/image'
 
 // Constants for statistics
 const STATS = {
@@ -79,7 +80,27 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-violet-950 to-black text-white">
+    <div className="min-h-screen relative text-white">
+      {/* Global Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover z-0"
+        style={{
+          filter: 'brightness(0.4) contrast(1.1) saturate(1.2)',
+          objectPosition: 'center center'
+        }}
+      >
+        <source src="/backgroundvid.mp4" type="video/mp4" />
+      </video>
+
+      {/* Global dark overlay for better text readability */}
+      <div className="fixed inset-0 bg-black/50 z-10"></div>
+
+      {/* All content wrapper with higher z-index */}
+      <div className="relative z-20">
       <style jsx>{`
         @keyframes fadeInUp {
           from {
@@ -100,14 +121,12 @@ export default function LandingPage() {
             {/* Split navbar - two separate sections WITHOUT containers */}
             <div className="flex justify-between items-center gap-4">
               {/* Left section - Logo */}
-              <div className="px-2 py-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-white" />
+              <div className="pl-0 py-9">
+                <div className="flex items-center gap-2 ml-0">
+                  <div className="w-20 h-10 rounded-lg flex items-center justify-center">
+                    <img src="/verifil.svg" alt="VeriFil" className="w-20 h-11" />
                   </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-violet-500 to-purple-600 bg-clip-text text-transparent">
-                    VeriFil
-                  </span>
+                 
                 </div>
               </div>
 
@@ -132,8 +151,8 @@ export default function LandingPage() {
             <div className="mx-auto max-w-5xl bg-black/80 backdrop-blur-md rounded-full border border-purple-500/30 shadow-lg shadow-purple-500/20">
               <div className="flex justify-between items-center h-16 px-6">
                 <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                    <img src="/verifil.svg" alt="VeriFil" className="w-10 h-10" />
                   </div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-violet-500 to-purple-600 bg-clip-text text-transparent">
                     VeriFil
@@ -154,73 +173,52 @@ export default function LandingPage() {
       </nav>
 
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 via-transparent to-violet-500/10 -z-10"></div>
-        <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-violet-600 rounded-full blur-3xl opacity-20 -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-violet-500 rounded-full blur-3xl opacity-15 -z-10"></div>
-
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left column - Text content */}
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-gray-300 text-sm font-medium">
-                <Zap className="w-4 h-4" />
-                Trusted by 1,000+ Users
-              </div>
-
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                Secure Your
-                <span className="block bg-gradient-to-r from-purple-500 via-violet-600 to-purple-700 bg-clip-text text-transparent">
-                  Crypto Portfolio
-                </span>
-              </h1>
-
-              <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
-                VeriFil analyzes your Ethereum wallets to detect scams, honeypots, and risky tokens.
-                Protect your investments with real-time risk assessment powered by advanced blockchain analytics.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="px-8 py-4 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
-                  Start Analyzing
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-                <button className="px-8 py-4 bg-black/50 border-2 border-purple-500/30 text-white rounded-full font-semibold hover:border-purple-500/50 hover:shadow-md hover:shadow-purple-500/30 transition-all duration-300">
-                  Watch Demo
-                </button>
-              </div>
-
-              {/* Stats - Vertical with popup animations */}
-
+      {/* Hero Section - Full Screen */}
+      <section className="h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Floating Navigation Elements */}
+        <div className="absolute top-0 left-0 right-0 z-30 p-6">
+          <div className="flex justify-between items-center">
+            {/* Logo - Top Left with more margin */}
+            <div className="flex items-center ml-8 mt-4 animate-in fade-in slide-in-from-left-8 duration-1000 delay-200">
+              
             </div>
-            {/* Right column - Visual element */}
-            <div className="relative">
-              <div className="relative bg-gradient-to-br from-purple-900/50 to-purple-950/50 border border-purple-500/30 rounded-3xl p-8 shadow-2xl shadow-purple-500/20">
-                <div className="bg-black/30 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-6 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-300 text-sm">Wallet Security Score</span>
-                    <span className="text-white font-bold text-2xl">98%</span>
-                  </div>
-                  <div className="h-3 bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-purple-600 via-violet-500 to-purple-500 rounded-full w-[98%]"></div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 pt-4">
-                    <div className="bg-black/50 border border-white/5 rounded-xl p-4">
-                      <div className="text-gray-400 text-xs mb-1">Risk Level</div>
-                      <div className="text-white font-bold">Low</div>
-                    </div>
-                    <div className="bg-black/50 border border-white/5 rounded-xl p-4">
-                      <div className="text-gray-400 text-xs mb-1">Scans Run</div>
-                      <div className="text-white font-bold">247</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-violet-600 rounded-full blur-2xl opacity-20"></div>
-                <div className="absolute -top-4 -left-4 w-32 h-32 bg-purple-500 rounded-full blur-2xl opacity-20"></div>
-              </div>
+          </div>
+        </div>
+
+        {/* Content - Left Aligned with Right Image */}
+        <div className="w-full relative z-20 flex items-center gap-16 pl-16 pr-12">
+          <div className="max-w-2xl text-left flex-shrink-0">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+              <span className="text-white">Verifil</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white mb-10 leading-relaxed font-light animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-700">
+              Advanced blockchain security that protects your crypto investments from scams, honeypots, and risky tokens with real-time analysis.
+            </p>
+            <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-900">
+              <Link
+                href="/wallets"
+                className="bg-primary text-primary-foreground px-10 py-4 rounded-xl text-xl font-bold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 flex items-center gap-3 shadow-2xl w-fit"
+              >
+                Start Analyzing
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <button
+                className="px-8 py-4 border-2 border-white text-white rounded-xl hover:bg-white/10 transition-all duration-300 font-semibold text-lg backdrop-blur-sm w-fit"
+              >
+                Watch Demo
+              </button>
             </div>
+          </div>
+
+          {/* Demonstration Image - Positioned More to the Right */}
+          <div className="flex-1 max-w-3xl ml-16 animate-in fade-in slide-in-from-right-12 duration-1200 delay-600">
+            <Image
+              src="/demonstration.png"
+              alt="Verifil Dashboard Demonstration"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded-xl shadow-2xl"
+            />
           </div>
         </div>
       </section>
@@ -469,11 +467,11 @@ export default function LandingPage() {
           <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
             Join thousands of users who trust VeriFil to protect their crypto investments with advanced security analysis
           </p>
-          <button className="px-10 py-5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white rounded-full text-lg font-bold hover:shadow-2xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+          <Link href="/portfolio" className="px-10 py-5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 text-white rounded-full text-lg font-bold hover:shadow-2xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
             <Wallet className="w-6 h-6" />
             Get Started Free
             <ArrowRight className="w-5 h-5" />
-          </button>
+          </Link>
           <p className="text-gray-400 text-sm mt-6">No credit card required • Free forever</p>
         </div>
       </section>
@@ -484,8 +482,8 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-800 rounded-lg flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                  <img src="/verifil.svg" alt="VeriFil" className="w-10 h-10" />
                 </div>
                 <span className="text-2xl font-bold text-white">VeriFil</span>
               </div>
@@ -521,6 +519,7 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+      </div>
     </div>
   )
 }
